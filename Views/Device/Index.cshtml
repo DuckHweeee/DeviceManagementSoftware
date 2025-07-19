@@ -1,0 +1,440 @@
+@model DeviceManagementSoftware.Models.ViewModels.DeviceSearchFilterViewModel
+@{
+    ViewData["Title"] = "Device Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Enhanced Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        <i class="bi bi-laptop text-primary me-2"></i>Device Management
+                    </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Devices</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-flex gap-2">
+                    <a asp-action="Create" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i>Add Device
+                    </a>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-three-dots me-1"></i>More
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-upload me-2"></i>Import Devices</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-download me-2"></i>Export All</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Search and Filter Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Index" method="get" class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label fw-medium">
+                                <i class="bi bi-search me-1"></i>Search Device
+                            </label>
+                            <input name="searchTerm" value="@Model.SearchTerm" 
+                                   class="form-control" placeholder="Name, code, or model..." />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-medium">
+                                <i class="bi bi-folder me-1"></i>Category
+                            </label>
+                            <select name="categoryId" class="form-select">
+                                <option value="">All Categories</option>
+                                @if (Model.Categories != null)
+                                {
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <option value="@category.Value" selected="@(category.Selected)">
+                                            @category.Text
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-medium">
+                                <i class="bi bi-activity me-1"></i>Status
+                            </label>
+                            <select name="status" class="form-select">
+                                <option value="">All Status</option>
+                                @if (Model.Statuses != null)
+                                {
+                                    @foreach (var status in Model.Statuses)
+                                    {
+                                        <option value="@status.Value" selected="@(status.Selected)">
+                                            @status.Text
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-medium">
+                                <i class="bi bi-list-ol me-1"></i>Show
+                            </label>
+                            <select name="pageSize" class="form-select">
+                                <option value="10" selected="@(Model.PageSize == 10)">10 items</option>
+                                <option value="25" selected="@(Model.PageSize == 25)">25 items</option>
+                                <option value="50" selected="@(Model.PageSize == 50)">50 items</option>
+                                <option value="100" selected="@(Model.PageSize == 100)">100 items</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label invisible">Search</label>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary flex-fill">
+                                    <i class="bi bi-search me-1"></i>Search
+                                </button>
+                                <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results and Data Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-transparent border-bottom-0 p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="card-title mb-0 fw-semibold">
+                            <i class="bi bi-table me-1"></i>Device List
+                            @if (Model?.TotalCount > 0)
+                            {
+                                <span class="badge bg-primary ms-2">@Model.TotalCount</span>
+                            }
+                        </h6>
+                        <div class="d-flex gap-2">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-download me-1"></i>Export
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-excel me-2"></i>Excel</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i>PDF</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text me-2"></i>CSV</a></li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+                                <i class="bi bi-printer me-1"></i>Print
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.Devices == null || !Model.Devices.Any())
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-inbox display-1 text-muted"></i>
+                            <h5 class="mt-3 text-muted">No devices found</h5>
+                            <p class="text-muted">Try adjusting your search criteria or add your first device.</p>
+                            <div class="d-flex justify-content-center gap-2 mt-3">
+                                <a asp-action="Create" class="btn btn-primary">
+                                    <i class="bi bi-plus-circle me-1"></i>Add First Device
+                                </a>
+                                <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-clockwise me-1"></i>Reset Filters
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="fw-semibold">
+                                            <i class="bi bi-laptop me-1"></i>Device Details
+                                        </th>
+                                        <th class="fw-semibold">
+                                            <i class="bi bi-tags me-1"></i>Category
+                                        </th>
+                                        <th class="fw-semibold">
+                                            <i class="bi bi-activity me-1"></i>Status
+                                        </th>
+                                        <th class="fw-semibold">
+                                            <i class="bi bi-person me-1"></i>Assigned User
+                                        </th>
+                                        <th class="fw-semibold">
+                                            <i class="bi bi-calendar3 me-1"></i>Date Added
+                                        </th>
+                                        <th class="fw-semibold text-center">
+                                            <i class="bi bi-gear me-1"></i>Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var device in Model.Devices)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="bg-primary bg-opacity-10 p-2 rounded">
+                                                            <i class="bi bi-laptop text-primary"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-1 fw-semibold">@device.Name</h6>
+                                                        <small class="text-muted">
+                                                            <i class="bi bi-hash me-1"></i>@device.Code
+                                                            @if (!string.IsNullOrEmpty(device.SerialNumber))
+                                                            {
+                                                                <span class="ms-2">• SN: @device.SerialNumber</span>
+                                                            }
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-info-subtle text-info border border-info-subtle">
+                                                    <i class="bi bi-folder me-1"></i>@device.Category?.Name
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @switch (device.Status)
+                                                {
+                                                    case DeviceManagementSoftware.Models.DeviceStatus.InUse:
+                                                        <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                                            <i class="bi bi-check-circle me-1"></i>In Use
+                                                        </span>
+                                                        break;
+                                                    case DeviceManagementSoftware.Models.DeviceStatus.Available:
+                                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                                            <i class="bi bi-check2-square me-1"></i>Available
+                                                        </span>
+                                                        break;
+                                                    case DeviceManagementSoftware.Models.DeviceStatus.Broken:
+                                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+                                                            <i class="bi bi-exclamation-triangle me-1"></i>Broken
+                                                        </span>
+                                                        break;
+                                                    case DeviceManagementSoftware.Models.DeviceStatus.UnderMaintenance:
+                                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle">
+                                                            <i class="bi bi-wrench me-1"></i>Maintenance
+                                                        </span>
+                                                        break;
+                                                }
+                                            </td>
+                                            <td>
+                                                @{
+                                                    var currentAssignment = device.UserDevices?.FirstOrDefault(ud => ud.IsActive);
+                                                }
+                                                @if (currentAssignment != null && device.Status == DeviceManagementSoftware.Models.DeviceStatus.InUse)
+                                                {
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="bg-success bg-opacity-10 p-1 rounded me-2">
+                                                            <i class="bi bi-person-check text-success"></i>
+                                                        </div>
+                                                        <span class="fw-medium">@currentAssignment.User?.FullName</span>
+                                                    </div>
+                                                }
+                                                else if (device.Status == DeviceManagementSoftware.Models.DeviceStatus.InUse && currentAssignment == null)
+                                                {
+                                                    <div class="d-flex align-items-center text-danger">
+                                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                                        <span class="fw-medium">No User Assigned!</span>
+                                                    </div>
+                                                }
+                                                else if (currentAssignment != null && device.Status != DeviceManagementSoftware.Models.DeviceStatus.InUse)
+                                                {
+                                                    <div class="d-flex align-items-center text-warning">
+                                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                                        <span class="fw-medium">Status Mismatch!</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted fw-medium">
+                                                        <i class="bi bi-dash me-1"></i>Not Assigned
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <span class="fw-medium">@device.DateOfEntry.ToString("dd/MM/yyyy")</span>
+                                                <br>
+                                                <small class="text-muted">@device.DateOfEntry.ToString("HH:mm")</small>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center gap-1">
+                                                    <a asp-action="Details" asp-route-id="@device.Id" class="btn btn-sm btn-outline-info" title="View Details">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <a asp-action="Edit" asp-route-id="@device.Id" class="btn btn-sm btn-outline-warning" title="Edit Device">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" title="Delete Device" 
+                                                            onclick="confirmDelete('@device.Id', '@device.Name')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Enhanced Pagination -->
+                        @if (Model.TotalPages > 1)
+                        {
+                            <div class="d-flex justify-content-between align-items-center p-3 border-top">
+                                <div class="text-muted">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Page @Model.PageNumber of @Model.TotalPages
+                                </div>
+                                <nav aria-label="Device pagination">
+                                    <ul class="pagination pagination-sm mb-0">
+                                        @if (Model.PageNumber > 1)
+                                        {
+                                            <li class="page-item">
+                                                <a class="page-link" 
+                                                   asp-action="Index" 
+                                                   asp-route-pageNumber="1"
+                                                   asp-route-searchTerm="@Model.SearchTerm"
+                                                   asp-route-categoryId="@Model.CategoryId"
+                                                   asp-route-status="@Model.Status"
+                                                   asp-route-pageSize="@Model.PageSize">
+                                                    <i class="bi bi-chevron-double-left"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" 
+                                                   asp-action="Index" 
+                                                   asp-route-pageNumber="@(Model.PageNumber - 1)"
+                                                   asp-route-searchTerm="@Model.SearchTerm"
+                                                   asp-route-categoryId="@Model.CategoryId"
+                                                   asp-route-status="@Model.Status"
+                                                   asp-route-pageSize="@Model.PageSize">
+                                                    <i class="bi bi-chevron-left"></i>
+                                                </a>
+                                            </li>
+                                        }
+
+                                        @for (int i = Math.Max(1, Model.PageNumber - 2); i <= Math.Min(Model.TotalPages, Model.PageNumber + 2); i++)
+                                        {
+                                            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                                <a class="page-link" 
+                                                   asp-action="Index" 
+                                                   asp-route-pageNumber="@i"
+                                                   asp-route-searchTerm="@Model.SearchTerm"
+                                                   asp-route-categoryId="@Model.CategoryId"
+                                                   asp-route-status="@Model.Status"
+                                                   asp-route-pageSize="@Model.PageSize">
+                                                    @i
+                                                </a>
+                                            </li>
+                                        }
+
+                                        @if (Model.PageNumber < Model.TotalPages)
+                                        {
+                                            <li class="page-item">
+                                                <a class="page-link" 
+                                                   asp-action="Index" 
+                                                   asp-route-pageNumber="@(Model.PageNumber + 1)"
+                                                   asp-route-searchTerm="@Model.SearchTerm"
+                                                   asp-route-categoryId="@Model.CategoryId"
+                                                   asp-route-status="@Model.Status"
+                                                   asp-route-pageSize="@Model.PageSize">
+                                                    <i class="bi bi-chevron-right"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" 
+                                                   asp-action="Index" 
+                                                   asp-route-pageNumber="@Model.TotalPages"
+                                                   asp-route-searchTerm="@Model.SearchTerm"
+                                                   asp-route-categoryId="@Model.CategoryId"
+                                                   asp-route-status="@Model.Status"
+                                                   asp-route-pageSize="@Model.PageSize">
+                                                    <i class="bi bi-chevron-double-right"></i>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </nav>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    <i class="bi bi-exclamation-triangle text-warning me-2"></i>
+                    Confirm Delete
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the device <strong id="deviceName"></strong>?</p>
+                <div class="alert alert-warning">
+                    <i class="bi bi-info-circle me-2"></i>
+                    This action cannot be undone. All related data will be permanently deleted.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i>Cancel
+                </button>
+                <a id="deleteConfirmButton" href="#" class="btn btn-danger">
+                    <i class="bi bi-trash me-1"></i>Delete Device
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmDelete(deviceId, deviceName) {
+    document.getElementById('deviceName').textContent = deviceName;
+    document.getElementById('deleteConfirmButton').href = '@Url.Action("Delete")/' + deviceId;
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+
+// Auto-refresh functionality
+$(document).ready(function() {
+    // Add loading states to search form
+    $('form[asp-action="Index"]').on('submit', function() {
+        $(this).find('button[type="submit"]').prop('disabled', true).html('<span class="loading me-2"></span>Searching...');
+    });
+    
+    // Tooltip initialization
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+});
+</script>

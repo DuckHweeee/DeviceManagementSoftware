@@ -1,0 +1,204 @@
+@model DeviceManagementSoftware.Models.ViewModels.UserDetailsViewModel
+
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-person"></i> User Information
+                </h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-5">Name:</dt>
+                    <dd class="col-sm-7">@Model.User.FullName</dd>
+                    
+                    <dt class="col-sm-5">Email:</dt>
+                    <dd class="col-sm-7">
+                        <a href="mailto:@Model.User.Email">@Model.User.Email</a>
+                    </dd>
+                    
+                    <dt class="col-sm-5">Phone:</dt>
+                    <dd class="col-sm-7">@Model.User.PhoneNumber</dd>
+                    
+                    <dt class="col-sm-5">Department:</dt>
+                    <dd class="col-sm-7">
+                        @if (!string.IsNullOrEmpty(Model.User.Department))
+                        {
+                            <span class="badge bg-info">@Model.User.Department</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Not specified</span>
+                        }
+                    </dd>
+                    
+                    <dt class="col-sm-5">Position:</dt>
+                    <dd class="col-sm-7">@Model.User.Position</dd>
+                    
+                    <dt class="col-sm-5">Status:</dt>
+                    <dd class="col-sm-7">
+                        @if (Model.User.IsActive)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                    </dd>
+                    
+                    <dt class="col-sm-5">Date Created:</dt>
+                    <dd class="col-sm-7">@Model.User.DateCreated.ToString("MMM dd, yyyy")</dd>
+                </dl>
+                
+                <div class="d-grid gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-warning">
+                        <i class="bi bi-pencil"></i> Edit User
+                    </a>
+                    <a asp-action="AssignDevice" class="btn btn-success">
+                        <i class="bi bi-arrow-right-circle"></i> Assign Device
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to Users
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <!-- Currently Assigned Devices -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-laptop"></i> Currently Assigned Devices
+                </h5>
+            </div>
+            <div class="card-body">
+                @if (Model.AssignedDevices == null || !Model.AssignedDevices.Any())
+                {
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> No devices currently assigned to this user.
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Device</th>
+                                    <th>Code</th>
+                                    <th>Category</th>
+                                    <th>Assigned Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var assignment in Model.AssignedDevices)
+                                {
+                                    <tr>
+                                        <td><strong>@assignment.Device?.Name</strong></td>
+                                        <td><code>@assignment.Device?.Code</code></td>
+                                        <td>
+                                            <span class="badge bg-info">@assignment.Device?.Category?.Name</span>
+                                        </td>
+                                        <td>@assignment.AssignedDate.ToString("MMM dd, yyyy")</td>
+                                        <td>
+                                            <form asp-action="ReturnDevice" method="post" style="display: inline;">
+                                                <input type="hidden" name="userDeviceId" value="@assignment.Id" />
+                                                <button type="submit" class="btn btn-sm btn-outline-warning" 
+                                                        onclick="return confirm('Are you sure you want to return this device?')">
+                                                    <i class="bi bi-arrow-left-circle"></i> Return
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <!-- Device History -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-clock-history"></i> Device Assignment History
+                </h5>
+            </div>
+            <div class="card-body">
+                @if (Model.DeviceHistory == null || !Model.DeviceHistory.Any())
+                {
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> No device assignment history for this user.
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Device</th>
+                                    <th>Code</th>
+                                    <th>Category</th>
+                                    <th>Assigned Date</th>
+                                    <th>Return Date</th>
+                                    <th>Status</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var history in Model.DeviceHistory)
+                                {
+                                    <tr class="@(!history.IsActive ? "table-light" : "")">
+                                        <td>@history.Device?.Name</td>
+                                        <td><code>@history.Device?.Code</code></td>
+                                        <td>
+                                            <span class="badge bg-info">@history.Device?.Category?.Name</span>
+                                        </td>
+                                        <td>@history.AssignedDate.ToString("MMM dd, yyyy")</td>
+                                        <td>
+                                            @if (history.ReturnDate.HasValue)
+                                            {
+                                                @history.ReturnDate.Value.ToString("MMM dd, yyyy")
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">Not returned</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (history.IsActive)
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Returned</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(history.Notes))
+                                            {
+                                                <small>@history.Notes</small>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

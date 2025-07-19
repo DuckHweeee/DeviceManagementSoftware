@@ -1,0 +1,184 @@
+@model DeviceManagementSoftware.Models.ViewModels.DeviceCreateEditViewModel
+@using DeviceManagementSoftware.Models
+
+@{
+    ViewData["Title"] = "Edit Device";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-pencil"></i> Edit Device
+                </h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <input type="hidden" asp-for="Device.Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Device.Name" class="form-label"></label>
+                                <input asp-for="Device.Name" class="form-control" placeholder="Enter device name" />
+                                <span asp-validation-for="Device.Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Device.Code" class="form-label"></label>
+                                <input asp-for="Device.Code" class="form-control" placeholder="Enter device code" />
+                                <span asp-validation-for="Device.Code" class="text-danger"></span>
+                                <div class="form-text">Must be unique across all devices</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Device.SerialNumber" class="form-label"></label>
+                                <input asp-for="Device.SerialNumber" class="form-control"
+                                    placeholder="Enter serial number" />
+                                <span asp-validation-for="Device.SerialNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Device.CategoryId" class="form-label"></label>
+                                <select asp-for="Device.CategoryId" class="form-select" asp-items="Model.Categories">
+                                    <option value="">Select a category...</option>
+                                </select>
+                                <span asp-validation-for="Device.CategoryId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Device.Location" class="form-label"></label>
+                                <input asp-for="Device.Location" class="form-control"
+                                    placeholder="Enter device location" />
+                                <span asp-validation-for="Device.Location" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Device.Status" class="form-label"></label>
+                                <select asp-for="Device.Status" class="form-select" asp-items="Model.Statuses">
+                                    <option value="">Select a status...</option>
+                                </select>
+                                <span asp-validation-for="Device.Status" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Device.Description" class="form-label"></label>
+                        <textarea asp-for="Device.Description" class="form-control" rows="3"
+                            placeholder="Enter device description (optional)"></textarea>
+                        <span asp-validation-for="Device.Description" class="text-danger"></span>
+                    </div>
+
+                    <!-- User Assignment Section -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="bi bi-person-gear"></i> User Assignment
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            @if (Model.AssignedUser != null)
+                            {
+                                <div class="alert alert-info">
+                                    <i class="bi bi-person-check"></i>
+                                    <strong>Currently assigned to:</strong> @Model.AssignedUser.FullName (@Model.AssignedUser.Email)
+                                    <br><small>Assigned on: @Model.CurrentAssignment?.AssignedDate.ToString("MMM dd, yyyy")</small>
+                                    @if (!string.IsNullOrEmpty(Model.CurrentAssignment?.Notes))
+                                    {
+                                        <br><small><strong>Notes:</strong> @Model.CurrentAssignment.Notes</small>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle"></i>
+                                    <strong>Not assigned to any user</strong>
+                                </div>
+                            }
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label asp-for="SelectedUserId" class="form-label">
+                                            @(Model.AssignedUser != null ? "Change Assignment" : "Assign to User")
+                                        </label>
+                                        <select asp-for="SelectedUserId" class="form-select" asp-items="Model.AvailableUsers">
+                                            <option value="">@(Model.AssignedUser != null ? "Unassign device" : "Select a user...")</option>
+                                        </select>
+                                        <div class="form-text">
+                                            @if (Model.AssignedUser != null)
+                                            {
+                                                <span>Select a different user to reassign, or leave empty to unassign the device.</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Assigning will automatically set device status to "In Use".</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label asp-for="AssignmentNotes" class="form-label">Assignment Notes</label>
+                                        <textarea asp-for="AssignmentNotes" class="form-control" rows="2" 
+                                            placeholder="Optional notes about this assignment"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i>
+                        <strong>Business Rules:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Devices marked "In Use" must be assigned to a user</li>
+                            <li>Assigning a device automatically sets its status to "In Use"</li>
+                            <li>Unassigning a device automatically sets its status to "Available"</li>
+                            <li>You can change both device details and assignment in one operation</li>
+                        </ul>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <a asp-action="Details" class="btn btn-info">  <i class="bi bi-eye"></i> View Details
+                            </a>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="bi bi-arrow-left"></i> Back to List
+                            </a>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Update Device
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+                                   
+                                   
+                           
+                       
