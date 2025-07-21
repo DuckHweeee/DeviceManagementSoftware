@@ -265,16 +265,28 @@ namespace DeviceManagementSoftware.Controllers
         }
 
         // GET: Device/ByCategory/5
-        public async Task<IActionResult> ByCategory(int id)
+        public async Task<IActionResult> ByCategory(int id, int page = 1, int pageSize = 10)
         {
+            // Validate page and pageSize parameters
+            if (page < 1) page = 1;
+            if (pageSize < 1 || pageSize > 50) pageSize = 10;
+
             var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            var devices = await _deviceService.GetDevicesByCategoryAsync(id);
+            var (devices, totalCount) = await _deviceService.GetPagedDevicesAsync(page, pageSize, null, id, null, null);
             ViewBag.CategoryName = category.Name;
+            ViewBag.CategoryId = id;
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalCount = totalCount;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            ViewBag.HasPreviousPage = page > 1;
+            ViewBag.HasNextPage = page < ViewBag.TotalPages;
+
             return View(devices);
         }
     }

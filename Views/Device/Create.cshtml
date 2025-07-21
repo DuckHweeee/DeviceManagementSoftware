@@ -11,13 +11,13 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h1 class="mb-2">
-                        <i class="bi bi-plus-circle text-primary me-2"></i>
+                        <i class="fas fa-plus-circle text-primary me-2"></i>
                         Add New Device
                     </h1>
                     <p class="text-muted mb-0">Register a new device in the inventory system</p>
                 </div>
                 <a asp-action="Index" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left me-1"></i>
+                    <i class="fas fa-arrow-left me-1"></i>
                     Back to Devices
                 </a>
             </div>
@@ -29,17 +29,17 @@
                 <ul class="nav nav-tabs card-header-tabs" id="deviceFormTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic-info" type="button" role="tab">
-                            <i class="bi bi-info-circle me-1"></i>Basic Information
+                            <i class="fas fa-info-circle me-1"></i>Basic Information
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#device-details" type="button" role="tab">
-                            <i class="bi bi-gear me-1"></i>Device Details
+                            <i class="fas fa-cogs me-1"></i>Device Details
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="location-tab" data-bs-toggle="tab" data-bs-target="#location-status" type="button" role="tab">
-                            <i class="bi bi-geo-alt me-1"></i>Location & Status
+                            <i class="fas fa-map-marker-alt me-1"></i>Location & Status
                         </button>
                     </li>
                 </ul>
@@ -59,7 +59,7 @@
                                     <div class="form-floating">
                                         <input asp-for="Device.Name" class="form-control" id="deviceName" placeholder="Device Name" />
                                         <label for="deviceName">
-                                            <i class="bi bi-laptop me-1"></i>Device Name *
+                                            <i class="fas fa-laptop me-1"></i>Device Name *
                                         </label>
                                         <span asp-validation-for="Device.Name" class="text-danger small"></span>
                                         <div class="form-text">Enter a descriptive name for the device</div>
@@ -69,7 +69,7 @@
                                     <div class="form-floating">
                                         <input asp-for="Device.Code" class="form-control" id="deviceCode" placeholder="Device Code" />
                                         <label for="deviceCode">
-                                            <i class="bi bi-hash me-1"></i>Device Code *
+                                            <i class="fas fa-hashtag me-1"></i>Device Code *
                                         </label>
                                         <span asp-validation-for="Device.Code" class="text-danger small"></span>
                                         <div class="form-text">Unique identifier (auto-generated if empty)</div>
@@ -80,21 +80,21 @@
                             <div class="row g-3 mt-2">
                                 <div class="col-md-6">
                                     <label class="form-label fw-semibold">
-                                        <i class="bi bi-tags me-1"></i>Category *
+                                        <i class="fas fa-tags me-1"></i>Category *
                                     </label>
-                                    @Html.DropDownListFor(m => m.Device.CategoryId, Model.Categories, "Select a category...", new { @class = "form-select form-select-lg" })
+                                    @Html.DropDownListFor(m => m.Device.CategoryId, Model.Categories, "Select a category...", new { @class = "form-select" })
                                     <span asp-validation-for="Device.CategoryId" class="text-danger small"></span>
                                     <div class="form-text">
                                         <a href="@Url.Action("Create", "DeviceCategory")" class="text-decoration-none">
-                                            <i class="bi bi-plus me-1"></i>Add New Category
+                                            <i class="fas fa-plus me-1"></i>Add New Category
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-semibold">
-                                        <i class="bi bi-activity me-1"></i>Status
+                                        <i class="fas fa-chart-line me-1"></i>Status
                                     </label>
-                                    @Html.DropDownListFor(m => m.Device.Status, Model.Statuses, new { @class = "form-select form-select-lg" })
+                                    @Html.DropDownListFor(m => m.Device.Status, Model.Statuses, new { @class = "form-select" })
                                     <span asp-validation-for="Device.Status" class="text-danger small"></span>
                                     <div class="form-text">Current operational status</div>
                                 </div>
@@ -108,7 +108,7 @@
                                     <div class="form-floating">
                                         <input asp-for="Device.SerialNumber" class="form-control" id="deviceSerial" placeholder="Serial Number" />
                                         <label for="deviceSerial">
-                                            <i class="bi bi-upc-scan me-1"></i>Serial Number
+                                            <i class="fas fa-barcode me-1"></i>Serial Number
                                         </label>
                                         <span asp-validation-for="Device.SerialNumber" class="text-danger small"></span>
                                         <div class="form-text">Device serial number</div>
@@ -118,7 +118,7 @@
                                     <div class="form-floating">
                                         <input asp-for="Device.Location" class="form-control" id="deviceLocation" placeholder="Location" />
                                         <label for="deviceLocation">
-                                            <i class="bi bi-geo-alt me-1"></i>Location
+                                            <i class="fas fa-map-marker-alt me-1"></i>Location
                                         </label>
                                         <span asp-validation-for="Device.Location" class="text-danger small"></span>
                                         <div class="form-text">Physical location of the device</div>
@@ -128,7 +128,7 @@
 
                             <div class="mt-3">
                                 <label asp-for="Device.Description" class="form-label fw-semibold">
-                                    <i class="bi bi-card-text me-1"></i>Description
+                                    <i class="fas fa-file-alt me-1"></i>Description
                                 </label>
                                 <textarea asp-for="Device.Description" class="form-control" rows="4" placeholder="Additional details about the device, specifications, warranty information, etc."></textarea>
                                 <span asp-validation-for="Device.Description" class="text-danger small"></span>
@@ -143,7 +143,7 @@
                                     <div class="form-floating">
                                         <input asp-for="Device.Location" class="form-control" id="deviceLocation" placeholder="Location" />
                                         <label for="deviceLocation">
-                                            <i class="bi bi-geo-alt me-1"></i>Location
+                                            <i class="fas fa-map-marker-alt me-1"></i>Location
                                         </label>
                                         <span asp-validation-for="Device.Location" class="text-danger small"></span>
                                         <div class="form-text">Physical location (Office, Room, Building, etc.)</div>
@@ -154,7 +154,7 @@
                                         <textarea asp-for="Device.Description" class="form-control" id="deviceDescription" 
                                                 style="height: 100px;" placeholder="Description"></textarea>
                                         <label for="deviceDescription">
-                                            <i class="bi bi-card-text me-1"></i>Description
+                                            <i class="fas fa-file-alt me-1"></i>Description
                                         </label>
                                         <span asp-validation-for="Device.Description" class="text-danger small"></span>
                                         <div class="form-text">Additional device details</div>
@@ -165,7 +165,7 @@
                             <!-- Device Preview Card -->
                             <div class="mt-4">
                                 <h6 class="fw-semibold mb-3">
-                                    <i class="bi bi-eye me-1"></i>Device Preview
+                                    <i class="fas fa-eye me-1"></i>Device Preview
                                 </h6>
                                 <div class="card bg-light">
                                     <div class="card-body">
@@ -173,7 +173,7 @@
                                             <div class="col-md-8">
                                                 <div class="d-flex align-items-center">
                                                     <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
-                                                        <i class="bi bi-laptop text-primary fs-4"></i>
+                                                        <i class="fas fa-laptop text-primary fs-4"></i>
                                                     </div>
                                                     <div>
                                                         <h6 class="mb-1" id="previewName">Device Name</h6>
@@ -200,19 +200,19 @@
                     <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
                         <div class="d-flex gap-2">
                             <a asp-action="Index" class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left me-1"></i>Cancel
+                                <i class="fas fa-arrow-left me-1"></i>Cancel
                             </a>
                             <button type="button" class="btn btn-outline-primary" id="previewBtn">
-                                <i class="bi bi-eye me-1"></i>Preview
+                                <i class="fas fa-eye me-1"></i>Preview
                             </button>
                         </div>
                         
                         <div class="d-flex gap-2">
                             <button type="button" class="btn btn-success" id="saveAndAddAnother">
-                                <i class="bi bi-plus-circle me-1"></i>Save & Add Another
+                                <i class="fas fa-plus-circle me-1"></i>Save & Add Another
                             </button>
                             <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-circle me-1"></i>Create Device
+                                <i class="fas fa-check-circle me-1"></i>Create Device
                             </button>
                         </div>
                     </div>
@@ -224,24 +224,24 @@
         <div class="card mt-4">
             <div class="card-header">
                 <h6 class="card-title mb-0">
-                    <i class="bi bi-lightning-charge me-1"></i>Quick Actions
+                    <i class="fas fa-bolt me-1"></i>Quick Actions
                 </h6>
             </div>
             <div class="card-body">
                 <div class="row g-2">
                     <div class="col-md-4">
                         <a href="@Url.Action("Create", "DeviceCategory")" class="btn btn-outline-info w-100">
-                            <i class="bi bi-tags me-1"></i>Add Category
+                            <i class="fas fa-tags me-1"></i>Add Category
                         </a>
                     </div>
                     <div class="col-md-4">
                         <a href="@Url.Action("Index")" class="btn btn-outline-secondary w-100">
-                            <i class="bi bi-list-ul me-1"></i>View All Devices
+                            <i class="fas fa-list-ul me-1"></i>View All Devices
                         </a>
                     </div>
                     <div class="col-md-4">
                         <button type="button" class="btn btn-outline-warning w-100" onclick="resetForm()">
-                            <i class="bi bi-arrow-clockwise me-1"></i>Reset Form
+                            <i class="fas fa-sync me-1"></i>Reset Form
                         </button>
                     </div>
                 </div>

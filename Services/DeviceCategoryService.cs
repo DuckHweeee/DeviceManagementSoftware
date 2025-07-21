@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using DeviceManagementSoftware.Data;
 using DeviceManagementSoftware.Models;
+using DeviceManagementSoftware.Models.ViewModels;
 
 namespace DeviceManagementSoftware.Services
 {
@@ -19,6 +20,26 @@ namespace DeviceManagementSoftware.Services
                 .Include(c => c.Devices)
                 .OrderBy(c => c.Name)
                 .ToListAsync();
+        }
+
+        public async Task<PaginatedResult<DeviceCategory>> GetPaginatedCategoriesAsync(int pageNumber = 1, int pageSize = 10)
+        {
+            var totalCount = await _context.DeviceCategories.CountAsync();
+            
+            var items = await _context.DeviceCategories
+                .Include(c => c.Devices)
+                .OrderBy(c => c.Name)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PaginatedResult<DeviceCategory>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
         }
 
         public async Task<DeviceCategory?> GetCategoryByIdAsync(int id)

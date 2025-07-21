@@ -13,14 +13,14 @@
                 </h4>
             </div>
             <div class="card-body">
-                <form asp-action="Create">
+                <form asp-action="Create" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                     
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label asp-for="FullName" class="form-label"></label>
-                                <input asp-for="FullName" class="form-control" placeholder="Enter full name" />
+                                <input asp-for="FullName" class="form-control" placeholder="Enter full name" required maxlength="100" />
                                 <span asp-validation-for="FullName" class="text-danger"></span>
                             </div>
                         </div>
@@ -30,14 +30,14 @@
                         <div class="col-md-8">
                             <div class="mb-3">
                                 <label asp-for="Email" class="form-label"></label>
-                                <input asp-for="Email" class="form-control" type="email" placeholder="user@company.com" />
+                                <input asp-for="Email" class="form-control" type="email" placeholder="user@company.com" required maxlength="100" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label asp-for="PhoneNumber" class="form-label"></label>
-                                <input asp-for="PhoneNumber" class="form-control" placeholder="123-456-7890" />
+                                <input asp-for="PhoneNumber" class="form-control" type="tel" inputmode="numeric" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" required maxlength="20" />
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
                         </div>
@@ -47,14 +47,14 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label asp-for="Department" class="form-label"></label>
-                                <input asp-for="Department" class="form-control" placeholder="e.g., IT, HR, Finance" />
+                                <input asp-for="Department" class="form-control" placeholder="e.g., IT, HR, Finance" required maxlength="50" />
                                 <span asp-validation-for="Department" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label asp-for="Position" class="form-label"></label>
-                                <input asp-for="Position" class="form-control" placeholder="e.g., Manager, Developer, Analyst" />
+                                <input asp-for="Position" class="form-control" placeholder="e.g., Manager, Developer, Analyst" required maxlength="50" />
                                 <span asp-validation-for="Position" class="text-danger"></span>
                             </div>
                         </div>

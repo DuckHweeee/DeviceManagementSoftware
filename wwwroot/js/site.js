@@ -17,14 +17,29 @@ const DeviceManagement = {
         $('form').on('submit', function(e) {
             const form = $(this);
             const submitBtn = form.find('button[type="submit"], input[type="submit"]');
-            
+
+            // Phone number regex validation
+            const phoneInput = form.find('input[name="PhoneNumber"], input[asp-for="PhoneNumber"]');
+            if (phoneInput.length) {
+                const phoneVal = phoneInput.val();
+                const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+                if (!phoneRegex.test(phoneVal)) {
+                    phoneInput.addClass('is-invalid');
+                    DeviceManagement.showNotification('Phone number must be in format 123-456-7890', 'error');
+                    e.preventDefault();
+                    return false;
+                } else {
+                    phoneInput.removeClass('is-invalid').addClass('is-valid');
+                }
+            }
+
             // Add loading state to submit button
             if (submitBtn.length && !submitBtn.hasClass('no-loading')) {
                 const originalText = submitBtn.html();
                 submitBtn.prop('disabled', true)
                          .addClass('loading-btn')
                          .html('<span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing...');
-                
+
                 // Reset button after 5 seconds as fallback
                 setTimeout(() => {
                     submitBtn.prop('disabled', false)

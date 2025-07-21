@@ -11,28 +11,22 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="fw-bold mb-1">
-                        <i class="bi bi-laptop text-primary me-2"></i>Device Management
+                        <i class="fas fa-laptop text-primary me-2"></i>Device Management
                     </h2>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Devices</li>
-                        </ol>
-                    </nav>
                 </div>
                 <div class="d-flex gap-2">
                     <a asp-action="Create" class="btn btn-primary">
-                        <i class="bi bi-plus-circle me-1"></i>Add Device
+                        <i class="fas fa-plus-circle me-1"></i>Add Device
                     </a>
                     <div class="dropdown">
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-three-dots me-1"></i>More
+                            <i class="fas fa-ellipsis-h me-1"></i>More
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-upload me-2"></i>Import Devices</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-download me-2"></i>Export All</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-upload me-2"></i>Import Devices</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-download me-2"></i>Export All</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
                         </ul>
                     </div>
                 </div>
@@ -48,14 +42,14 @@
                     <form asp-action="Index" method="get" class="row g-3">
                         <div class="col-md-3">
                             <label class="form-label fw-medium">
-                                <i class="bi bi-search me-1"></i>Search Device
+                                <i class="fas fa-search me-1"></i>Search Device
                             </label>
                             <input name="searchTerm" value="@Model.SearchTerm" 
                                    class="form-control" placeholder="Name, code, or model..." />
                         </div>
                         <div class="col-md-2">
                             <label class="form-label fw-medium">
-                                <i class="bi bi-folder me-1"></i>Category
+                                <i class="fas fa-folder me-1"></i>Category
                             </label>
                             <select name="categoryId" class="form-select">
                                 <option value="">All Categories</option>
@@ -72,7 +66,7 @@
                         </div>
                         <div class="col-md-2">
                             <label class="form-label fw-medium">
-                                <i class="bi bi-activity me-1"></i>Status
+                                <i class="fas fa-chart-line me-1"></i>Status
                             </label>
                             <select name="status" class="form-select">
                                 <option value="">All Status</option>
@@ -89,7 +83,7 @@
                         </div>
                         <div class="col-md-2">
                             <label class="form-label fw-medium">
-                                <i class="bi bi-list-ol me-1"></i>Show
+                                <i class="fas fa-list-ol me-1"></i>Show
                             </label>
                             <select name="pageSize" class="form-select">
                                 <option value="10" selected="@(Model.PageSize == 10)">10 items</option>
@@ -102,10 +96,10 @@
                             <label class="form-label invisible">Search</label>
                             <div class="d-flex gap-2">
                                 <button type="submit" class="btn btn-primary flex-fill">
-                                    <i class="bi bi-search me-1"></i>Search
+                                    <i class="fas fa-search me-1"></i>Search
                                 </button>
                                 <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
-                                    <i class="bi bi-arrow-clockwise"></i>
+                                    <i class="fas fa-sync-alt"></i>
                                 </a>
                             </div>
                         </div>
@@ -122,7 +116,7 @@
                 <div class="card-header bg-transparent border-bottom-0 p-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6 class="card-title mb-0 fw-semibold">
-                            <i class="bi bi-table me-1"></i>Device List
+                            <i class="fas fa-table me-1"></i>Device List
                             @if (Model?.TotalCount > 0)
                             {
                                 <span class="badge bg-primary ms-2">@Model.TotalCount</span>
@@ -131,16 +125,16 @@
                         <div class="d-flex gap-2">
                             <div class="dropdown">
                                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    <i class="bi bi-download me-1"></i>Export
+                                    <i class="fas fa-download me-1"></i>Export
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-excel me-2"></i>Excel</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i>PDF</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text me-2"></i>CSV</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-excel me-2"></i>Excel</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-pdf me-2"></i>PDF</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-csv me-2"></i>CSV</a></li>
                                 </ul>
                             </div>
                             <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">
-                                <i class="bi bi-printer me-1"></i>Print
+                                <i class="fas fa-print me-1"></i>Print
                             </button>
                         </div>
                     </div>
@@ -149,15 +143,15 @@
                     @if (Model.Devices == null || !Model.Devices.Any())
                     {
                         <div class="text-center py-5">
-                            <i class="bi bi-inbox display-1 text-muted"></i>
+                            <i class="fas fa-inbox display-1 text-muted"></i>
                             <h5 class="mt-3 text-muted">No devices found</h5>
                             <p class="text-muted">Try adjusting your search criteria or add your first device.</p>
                             <div class="d-flex justify-content-center gap-2 mt-3">
                                 <a asp-action="Create" class="btn btn-primary">
-                                    <i class="bi bi-plus-circle me-1"></i>Add First Device
+                                    <i class="fas fa-plus-circle me-1"></i>Add First Device
                                 </a>
                                 <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
-                                    <i class="bi bi-arrow-clockwise me-1"></i>Reset Filters
+                                    <i class="fas fa-sync-alt me-1"></i>Reset Filters
                                 </a>
                             </div>
                         </div>
@@ -169,22 +163,22 @@
                                 <thead>
                                     <tr>
                                         <th class="fw-semibold">
-                                            <i class="bi bi-laptop me-1"></i>Device Details
+                                            <i class="fas fa-laptop me-1"></i>Device Details
                                         </th>
                                         <th class="fw-semibold">
-                                            <i class="bi bi-tags me-1"></i>Category
+                                            <i class="fas fa-tags me-1"></i>Category
                                         </th>
                                         <th class="fw-semibold">
-                                            <i class="bi bi-activity me-1"></i>Status
+                                            <i class="fas fa-chart-line me-1"></i>Status
                                         </th>
                                         <th class="fw-semibold">
-                                            <i class="bi bi-person me-1"></i>Assigned User
+                                            <i class="fas fa-user me-1"></i>Assigned User
                                         </th>
                                         <th class="fw-semibold">
-                                            <i class="bi bi-calendar3 me-1"></i>Date Added
+                                            <i class="fas fa-calendar-alt me-1"></i>Date Added
                                         </th>
                                         <th class="fw-semibold text-center">
-                                            <i class="bi bi-gear me-1"></i>Actions
+                                            <i class="fas fa-cogs me-1"></i>Actions
                                         </th>
                                     </tr>
                                 </thead>
@@ -196,13 +190,13 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-3">
                                                         <div class="bg-primary bg-opacity-10 p-2 rounded">
-                                                            <i class="bi bi-laptop text-primary"></i>
+                                                            <i class="fas fa-laptop text-primary"></i>
                                                         </div>
                                                     </div>
                                                     <div>
                                                         <h6 class="mb-1 fw-semibold">@device.Name</h6>
                                                         <small class="text-muted">
-                                                            <i class="bi bi-hash me-1"></i>@device.Code
+                                                            <i class="fas fa-hashtag me-1"></i>@device.Code
                                                             @if (!string.IsNullOrEmpty(device.SerialNumber))
                                                             {
                                                                 <span class="ms-2">• SN: @device.SerialNumber</span>
@@ -213,7 +207,7 @@
                                             </td>
                                             <td>
                                                 <span class="badge bg-info-subtle text-info border border-info-subtle">
-                                                    <i class="bi bi-folder me-1"></i>@device.Category?.Name
+                                                    <i class="fas fa-folder me-1"></i>@device.Category?.Name
                                                 </span>
                                             </td>
                                             <td>
@@ -221,22 +215,22 @@
                                                 {
                                                     case DeviceManagementSoftware.Models.DeviceStatus.InUse:
                                                         <span class="badge bg-success-subtle text-success border border-success-subtle">
-                                                            <i class="bi bi-check-circle me-1"></i>In Use
+                                                            <i class="fas fa-check-circle me-1"></i>In Use
                                                         </span>
                                                         break;
                                                     case DeviceManagementSoftware.Models.DeviceStatus.Available:
                                                         <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
-                                                            <i class="bi bi-check2-square me-1"></i>Available
+                                                            <i class="fas fa-check-square me-1"></i>Available
                                                         </span>
                                                         break;
                                                     case DeviceManagementSoftware.Models.DeviceStatus.Broken:
                                                         <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
-                                                            <i class="bi bi-exclamation-triangle me-1"></i>Broken
+                                                            <i class="fas fa-exclamation-triangle me-1"></i>Broken
                                                         </span>
                                                         break;
                                                     case DeviceManagementSoftware.Models.DeviceStatus.UnderMaintenance:
                                                         <span class="badge bg-warning-subtle text-warning border border-warning-subtle">
-                                                            <i class="bi bi-wrench me-1"></i>Maintenance
+                                                            <i class="fas fa-wrench me-1"></i>Maintenance
                                                         </span>
                                                         break;
                                                 }
@@ -249,7 +243,7 @@
                                                 {
                                                     <div class="d-flex align-items-center">
                                                         <div class="bg-success bg-opacity-10 p-1 rounded me-2">
-                                                            <i class="bi bi-person-check text-success"></i>
+                                                            <i class="fas fa-user-check text-success"></i>
                                                         </div>
                                                         <span class="fw-medium">@currentAssignment.User?.FullName</span>
                                                     </div>
@@ -257,21 +251,21 @@
                                                 else if (device.Status == DeviceManagementSoftware.Models.DeviceStatus.InUse && currentAssignment == null)
                                                 {
                                                     <div class="d-flex align-items-center text-danger">
-                                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                                        <i class="fas fa-exclamation-triangle me-2"></i>
                                                         <span class="fw-medium">No User Assigned!</span>
                                                     </div>
                                                 }
                                                 else if (currentAssignment != null && device.Status != DeviceManagementSoftware.Models.DeviceStatus.InUse)
                                                 {
                                                     <div class="d-flex align-items-center text-warning">
-                                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                                        <i class="fas fa-exclamation-triangle me-2"></i>
                                                         <span class="fw-medium">Status Mismatch!</span>
                                                     </div>
                                                 }
                                                 else
                                                 {
                                                     <span class="text-muted fw-medium">
-                                                        <i class="bi bi-dash me-1"></i>Not Assigned
+                                                        <i class="fas fa-minus me-1"></i>Not Assigned
                                                     </span>
                                                 }
                                             </td>
@@ -282,15 +276,15 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center gap-1">
-                                                    <a asp-action="Details" asp-route-id="@device.Id" class="btn btn-sm btn-outline-info" title="View Details">
-                                                        <i class="bi bi-eye"></i>
+                                                    <a asp-action="Details" asp-route-id="@device.Id" class="btn btn-sm btn-outline-info fw-semibold" title="View Details">
+                                                        <i class="fas fa-eye me-1"></i>Details
                                                     </a>
-                                                    <a asp-action="Edit" asp-route-id="@device.Id" class="btn btn-sm btn-outline-warning" title="Edit Device">
-                                                        <i class="bi bi-pencil"></i>
+                                                    <a asp-action="Edit" asp-route-id="@device.Id" class="btn btn-sm btn-outline-warning fw-semibold" title="Edit Device">
+                                                        <i class="fas fa-edit me-1"></i>Edit
                                                     </a>
-                                                    <button type="button" class="btn btn-sm btn-outline-danger" title="Delete Device" 
+                                                    <button type="button" class="btn btn-sm btn-outline-danger fw-semibold" title="Delete Device" 
                                                             onclick="confirmDelete('@device.Id', '@device.Name')">
-                                                        <i class="bi bi-trash"></i>
+                                                        <i class="fas fa-trash-alt me-1"></i>Delete
                                                     </button>
                                                 </div>
                                             </td>
@@ -305,7 +299,7 @@
                         {
                             <div class="d-flex justify-content-between align-items-center p-3 border-top">
                                 <div class="text-muted">
-                                    <i class="bi bi-info-circle me-1"></i>
+                                    <i class="fas fa-info-circle me-1"></i>
                                     Page @Model.PageNumber of @Model.TotalPages
                                 </div>
                                 <nav aria-label="Device pagination">
@@ -320,7 +314,7 @@
                                                    asp-route-categoryId="@Model.CategoryId"
                                                    asp-route-status="@Model.Status"
                                                    asp-route-pageSize="@Model.PageSize">
-                                                    <i class="bi bi-chevron-double-left"></i>
+                                                    <i class="fas fa-angle-double-left"></i>
                                                 </a>
                                             </li>
                                             <li class="page-item">
@@ -331,7 +325,7 @@
                                                    asp-route-categoryId="@Model.CategoryId"
                                                    asp-route-status="@Model.Status"
                                                    asp-route-pageSize="@Model.PageSize">
-                                                    <i class="bi bi-chevron-left"></i>
+                                                    <i class="fas fa-angle-left"></i>
                                                 </a>
                                             </li>
                                         }
@@ -361,7 +355,7 @@
                                                    asp-route-categoryId="@Model.CategoryId"
                                                    asp-route-status="@Model.Status"
                                                    asp-route-pageSize="@Model.PageSize">
-                                                    <i class="bi bi-chevron-right"></i>
+                                                    <i class="fas fa-angle-right"></i>
                                                 </a>
                                             </li>
                                             <li class="page-item">
@@ -372,7 +366,7 @@
                                                    asp-route-categoryId="@Model.CategoryId"
                                                    asp-route-status="@Model.Status"
                                                    asp-route-pageSize="@Model.PageSize">
-                                                    <i class="bi bi-chevron-double-right"></i>
+                                                    <i class="fas fa-angle-double-right"></i>
                                                 </a>
                                             </li>
                                         }
@@ -393,7 +387,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">
-                    <i class="bi bi-exclamation-triangle text-warning me-2"></i>
+                    <i class="fas fa-exclamation-triangle text-warning me-2"></i>
                     Confirm Delete
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -401,16 +395,16 @@
             <div class="modal-body">
                 <p>Are you sure you want to delete the device <strong id="deviceName"></strong>?</p>
                 <div class="alert alert-warning">
-                    <i class="bi bi-info-circle me-2"></i>
+                    <i class="fas fa-info-circle me-2"></i>
                     This action cannot be undone. All related data will be permanently deleted.
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle me-1"></i>Cancel
+                    <i class="fas fa-times-circle me-1"></i>Cancel
                 </button>
                 <a id="deleteConfirmButton" href="#" class="btn btn-danger">
-                    <i class="bi bi-trash me-1"></i>Delete Device
+                    <i class="fas fa-trash me-1"></i>Delete Device
                 </a>
             </div>
         </div>
