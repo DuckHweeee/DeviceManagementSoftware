@@ -120,10 +120,10 @@ namespace DeviceManagementSoftware.Controllers
 
             // Get current assignment
             var currentAssignment = device.UserDevices?.FirstOrDefault(ud => ud.IsActive);
-            
+
             var categories = await _categoryService.GetAllCategoriesAsync();
             var users = await _userService.GetAllUsersAsync();
-            
+
             var viewModel = new DeviceCreateEditViewModel
             {
                 Device = device,
@@ -169,9 +169,9 @@ namespace DeviceManagementSoftware.Controllers
                         {
                             // Get current assignment BEFORE updating the device to avoid tracking conflicts
                             var currentAssignmentBefore = await _userService.GetActiveAssignmentForDeviceAsync(viewModel.Device.Id);
-                            
+
                             await _deviceService.UpdateDeviceAsync(viewModel.Device);
-                            
+
                             // Handle assignment changes based on pre-update state
                             // If user wants to assign to someone and no current assignment
                             if (viewModel.SelectedUserId.HasValue && currentAssignmentBefore == null)
@@ -198,7 +198,7 @@ namespace DeviceManagementSoftware.Controllers
                             {
                                 TempData["SuccessMessage"] = "Device updated successfully.";
                             }
-                            
+
                             return RedirectToAction(nameof(Index));
                         }
                         catch (Exception ex)
@@ -213,7 +213,7 @@ namespace DeviceManagementSoftware.Controllers
             var categories = await _categoryService.GetAllCategoriesAsync();
             var users = await _userService.GetAllUsersAsync();
             var currentAssignment = await _userService.GetActiveAssignmentForDeviceAsync(viewModel.Device.Id);
-            
+
             viewModel.Categories = new SelectList(categories, "Id", "Name", viewModel.Device.CategoryId);
             viewModel.Statuses = new SelectList(Enum.GetValues<DeviceStatus>().Select(s => new { Value = s, Text = s.ToString() }), "Value", "Text", viewModel.Device.Status);
             viewModel.AvailableUsers = new SelectList(users, "Id", "FullName");

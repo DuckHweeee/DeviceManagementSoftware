@@ -39,7 +39,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label asp-for="PhoneNumber" class="form-label"></label>
-                                <input asp-for="PhoneNumber" class="form-control" />
+                                <input asp-for="PhoneNumber" class="form-control" type="tel" inputmode="numeric" pattern="^(84|0)(3|5|7|8|9)[0-9]{8}$" placeholder="Ex: 0912345678 or 84912345678" required maxlength="20" />
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
                         </div>
