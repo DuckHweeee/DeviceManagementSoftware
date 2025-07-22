@@ -3,7 +3,7 @@
 
 // Global configuration
 const DeviceManagement = {
-    init: function() {
+    init: function () {
         this.setupFormValidation();
         this.setupLoadingStates();
         this.setupTooltips();
@@ -13,29 +13,45 @@ const DeviceManagement = {
     },
 
     // Setup form validation with visual feedback
-    setupFormValidation: function() {
-        $('form').on('submit', function(e) {
+    setupFormValidation: function () {
+        $('form').on('submit', function (e) {
             const form = $(this);
             const submitBtn = form.find('button[type="submit"], input[type="submit"]');
-            
+
+            // Phone number regex validation
+            const phoneInput = form.find('input[name="PhoneNumber"], input[asp-for="PhoneNumber"]');
+            if (phoneInput.length) {
+                const phoneVal = phoneInput.val();
+                if (!DeviceManagement.regexPhoneNumber(phoneVal)) {
+                    phoneInput.addClass('is-invalid');
+                    phoneInput.attr('placeholder', 'Invalid! Use 84xxxxxxxxx or 0xxxxxxxxx');
+                    DeviceManagement.showNotification('Please input the right phone number format!', 'error');
+                    e.preventDefault();
+                    return false;
+                } else {
+                    phoneInput.removeClass('is-invalid').addClass('is-valid');
+                    phoneInput.attr('placeholder', 'VD: 0912345678 hoặc 84912345678');
+                }
+            }
+
             // Add loading state to submit button
             if (submitBtn.length && !submitBtn.hasClass('no-loading')) {
                 const originalText = submitBtn.html();
                 submitBtn.prop('disabled', true)
-                         .addClass('loading-btn')
-                         .html('<span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing...');
-                
+                    .addClass('loading-btn')
+                    .html('<span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing...');
+
                 // Reset button after 5 seconds as fallback
                 setTimeout(() => {
                     submitBtn.prop('disabled', false)
-                             .removeClass('loading-btn')
-                             .html(originalText);
+                        .removeClass('loading-btn')
+                        .html(originalText);
                 }, 5000);
             }
         });
 
         // Real-time validation feedback
-        $('.form-control, .form-select').on('blur', function() {
+        $('.form-control, .form-select').on('blur', function () {
             const field = $(this);
             if (field.val().trim() !== '') {
                 field.removeClass('is-invalid').addClass('is-valid');
@@ -44,13 +60,13 @@ const DeviceManagement = {
     },
 
     // Setup loading states for buttons and links
-    setupLoadingStates: function() {
-        $('a[href*="/Create"], a[href*="/Edit"], a[href*="/Details"]').on('click', function() {
+    setupLoadingStates: function () {
+        $('a[href*="/Create"], a[href*="/Edit"], a[href*="/Details"]').on('click', function () {
             const link = $(this);
             if (!link.hasClass('no-loading')) {
                 const originalText = link.html();
                 link.html('<span class="spinner-border spinner-border-sm me-1" role="status"></span>Loading...');
-                
+
                 // Reset after navigation or timeout
                 setTimeout(() => {
                     link.html(originalText);
@@ -60,7 +76,7 @@ const DeviceManagement = {
     },
 
     // Initialize tooltips
-    setupTooltips: function() {
+    setupTooltips: function () {
         const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
@@ -68,30 +84,30 @@ const DeviceManagement = {
     },
 
     // Auto-hide alerts with animation
-    setupAlerts: function() {
-        $('.alert').each(function() {
+    setupAlerts: function () {
+        $('.alert').each(function () {
             const alert = $(this);
-            
+
             // Auto-hide after 5 seconds
             setTimeout(() => {
-                alert.fadeOut('slow', function() {
+                alert.fadeOut('slow', function () {
                     $(this).remove();
                 });
             }, 5000);
-            
+
             // Add dismiss animation
-            alert.find('.btn-close').on('click', function() {
+            alert.find('.btn-close').on('click', function () {
                 alert.fadeOut('fast');
             });
         });
     },
 
     // Setup confirmation dialogs
-    setupConfirmDialogs: function() {
-        $('a[href*="/Delete"], button[data-confirm]').on('click', function(e) {
+    setupConfirmDialogs: function () {
+        $('a[href*="/Delete"], button[data-confirm]').on('click', function (e) {
             const element = $(this);
             const message = element.data('confirm') || 'Are you sure you want to delete this item?';
-            
+
             if (!confirm(message)) {
                 e.preventDefault();
                 return false;
@@ -100,12 +116,12 @@ const DeviceManagement = {
     },
 
     // Enhanced table features
-    setupDataTables: function() {
+    setupDataTables: function () {
         // Add search highlighting
-        $('.table').on('draw.dt search.dt', function() {
+        $('.table').on('draw.dt search.dt', function () {
             const searchTerm = $('.dataTables_filter input').val();
             if (searchTerm) {
-                $(this).find('tbody tr').each(function() {
+                $(this).find('tbody tr').each(function () {
                     const row = $(this);
                     const text = row.text();
                     if (text.toLowerCase().includes(searchTerm.toLowerCase())) {
@@ -117,23 +133,29 @@ const DeviceManagement = {
 
         // Row hover effects
         $('.table tbody tr').hover(
-            function() {
+            function () {
                 $(this).addClass('table-active');
             },
-            function() {
+            function () {
                 $(this).removeClass('table-active');
             }
         );
     },
 
     // Utility functions
-    showNotification: function(message, type = 'info') {
+    // Validate Vietnamese phone number
+    regexPhoneNumber: function(phone) {
+        // Matches: 84xxxxxxxxx or 0xxxxxxxxx, where x is a digit, starts with 3/5/7/8/9 after 0 or 84
+        const regex = /^(84|0)(3|5|7|8|9)[0-9]{8}$/;
+        return regex.test(phone);
+    },
+    showNotification: function (message, type = 'info') {
         const alertClass = `alert-${type}`;
-        const iconClass = type === 'success' ? 'bi-check-circle-fill' : 
-                         type === 'error' ? 'bi-exclamation-triangle-fill' : 
-                         type === 'warning' ? 'bi-exclamation-triangle-fill' : 
-                         'bi-info-circle-fill';
-        
+        const iconClass = type === 'success' ? 'bi-check-circle-fill' :
+            type === 'error' ? 'bi-exclamation-triangle-fill' :
+                type === 'warning' ? 'bi-exclamation-triangle-fill' :
+                    'bi-info-circle-fill';
+
         const alert = $(`
             <div class="alert ${alertClass} alert-dismissible fade show position-fixed" 
                  style="top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
@@ -142,9 +164,9 @@ const DeviceManagement = {
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         `);
-        
+
         $('body').append(alert);
-        
+
         // Auto-remove after 4 seconds
         setTimeout(() => {
             alert.fadeOut(() => alert.remove());
@@ -152,7 +174,7 @@ const DeviceManagement = {
     },
 
     // Format currency
-    formatCurrency: function(amount) {
+    formatCurrency: function (amount) {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD'
@@ -160,29 +182,29 @@ const DeviceManagement = {
     },
 
     // Format date
-    formatDate: function(date, format = 'dd/MM/yyyy') {
+    formatDate: function (date, format = 'dd/MM/yyyy') {
         const d = new Date(date);
         const day = String(d.getDate()).padStart(2, '0');
         const month = String(d.getMonth() + 1).padStart(2, '0');
         const year = d.getFullYear();
-        
+
         return format.replace('dd', day).replace('MM', month).replace('yyyy', year);
     }
 };
 
 // Search functionality
 const SearchManager = {
-    init: function() {
+    init: function () {
         this.setupLiveSearch();
         this.setupAdvancedFilters();
     },
 
-    setupLiveSearch: function() {
+    setupLiveSearch: function () {
         let searchTimeout;
-        $('input[name="SearchTerm"]').on('input', function() {
+        $('input[name="SearchTerm"]').on('input', function () {
             clearTimeout(searchTimeout);
             const searchTerm = $(this).val();
-            
+
             searchTimeout = setTimeout(() => {
                 if (searchTerm.length >= 3 || searchTerm.length === 0) {
                     // Auto-submit form after 500ms delay
@@ -192,9 +214,9 @@ const SearchManager = {
         });
     },
 
-    setupAdvancedFilters: function() {
+    setupAdvancedFilters: function () {
         // Reset filters
-        $('.btn-reset-filters').on('click', function(e) {
+        $('.btn-reset-filters').on('click', function (e) {
             e.preventDefault();
             const form = $(this).closest('form');
             form.find('input, select').val('');
@@ -202,11 +224,11 @@ const SearchManager = {
         });
 
         // Quick filter buttons
-        $('.quick-filter').on('click', function(e) {
+        $('.quick-filter').on('click', function (e) {
             e.preventDefault();
             const filterValue = $(this).data('filter-value');
             const filterField = $(this).data('filter-field');
-            
+
             $(`select[name="${filterField}"]`).val(filterValue);
             $(this).closest('form').submit();
         });
@@ -215,42 +237,42 @@ const SearchManager = {
 
 // Dashboard specific functionality
 const Dashboard = {
-    init: function() {
+    init: function () {
         this.setupStatCards();
         this.setupCharts();
         this.setupRefresh();
     },
 
-    setupStatCards: function() {
-        $('.dashboard-card').each(function(index) {
+    setupStatCards: function () {
+        $('.dashboard-card').each(function (index) {
             $(this).css('animation-delay', `${index * 0.1}s`).addClass('fade-in-up');
         });
     },
 
-    setupCharts: function() {
+    setupCharts: function () {
         // Placeholder for chart initialization
         console.log('Charts would be initialized here');
     },
 
-    setupRefresh: function() {
-        $('.refresh-dashboard').on('click', function() {
+    setupRefresh: function () {
+        $('.refresh-dashboard').on('click', function () {
             location.reload();
         });
     }
 };
 
 // Initialize on document ready
-$(document).ready(function() {
+$(document).ready(function () {
     DeviceManagement.init();
     SearchManager.init();
-    
+
     // Initialize dashboard if on dashboard page
     if ($('.dashboard-card').length > 0) {
         Dashboard.init();
     }
-    
+
     // Smooth scrolling for anchor links
-    $('a[href^="#"]').on('click', function(event) {
+    $('a[href^="#"]').on('click', function (event) {
         const target = $(this.getAttribute('href'));
         if (target.length) {
             event.preventDefault();
@@ -259,20 +281,8 @@ $(document).ready(function() {
             }, 1000, 'easeInOutExpo');
         }
     });
-    
-    // Back to top button
-    $(window).scroll(function() {
-        if ($(this).scrollTop() > 100) {
-            $('#backToTop').fadeIn();
-        } else {
-            $('#backToTop').fadeOut();
-        }
-    });
-    
-    $('#backToTop').click(function() {
-        $('html, body').animate({scrollTop: 0}, 600);
-        return false;
-    });
+
+    // ...existing code...
 });
 
 // Add custom animations CSS
@@ -342,6 +352,3 @@ const customStyles = `
 
 // Inject custom styles
 $('head').append(customStyles);
-
-// Add back to top button to body
-$('body').append('<button id="backToTop" title="Back to Top"><i class="bi bi-arrow-up"></i></button>');

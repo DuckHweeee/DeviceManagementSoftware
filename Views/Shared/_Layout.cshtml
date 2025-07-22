@@ -7,28 +7,28 @@
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DeviceManagementSoftware.styles.css" asp-append-version="true" />
     
     <style>
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
     </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark">
+        <nav class="navbar navbar-expand-lg">
             <div class="container-fluid px-4">
                 <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
-                    <i class="bi bi-cpu-fill me-2 fs-4"></i>
+                    <i class="fas fa-microchip me-2 fs-4 text-primary"></i>
                     <span>Device Management System</span>
                 </a>
                 
@@ -40,7 +40,7 @@
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="bi bi-speedometer2 me-1"></i>
+                                <i class="fas fa-tachometer-alt me-1"></i>
                                 Dashboard
                             </a>
                         </li>
@@ -48,19 +48,19 @@
                         <!-- Category Management Dropdown -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-tags me-1"></i>
+                                <i class="fas fa-tags me-1"></i>
                                 Categories
                             </a>
                             <ul class="dropdown-menu shadow-custom">
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="DeviceCategory" asp-action="Index">
-                                        <i class="bi bi-collection me-2"></i>
+                                        <i class="fas fa-list me-2"></i>
                                         View Categories
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="DeviceCategory" asp-action="Create">
-                                        <i class="bi bi-plus-circle me-2"></i>
+                                        <i class="fas fa-plus-circle me-2"></i>
                                         Add Category
                                     </a>
                                 </li>
@@ -70,26 +70,26 @@
                         <!-- Device Management Dropdown -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="deviceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-laptop me-1"></i>
+                                <i class="fas fa-laptop me-1"></i>
                                 Devices
                             </a>
                             <ul class="dropdown-menu shadow-custom">
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="Device" asp-action="Index">
-                                        <i class="bi bi-list-ul me-2"></i>
+                                        <i class="fas fa-list-ul me-2"></i>
                                         View Devices
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="Device" asp-action="Create">
-                                        <i class="bi bi-plus-circle me-2"></i>
+                                        <i class="fas fa-plus-circle me-2"></i>
                                         Add Device
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center" href="#">
-                                        <i class="bi bi-search me-2"></i>
+                                        <i class="fas fa-search me-2"></i>
                                         Search Devices
                                     </a>
                                 </li>
@@ -99,26 +99,26 @@
                         <!-- User Management Dropdown -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-people me-1"></i>
+                                <i class="fas fa-users me-1"></i>
                                 Users
                             </a>
                             <ul class="dropdown-menu shadow-custom">
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="User" asp-action="Index">
-                                        <i class="bi bi-person-lines-fill me-2"></i>
+                                        <i class="fas fa-user-friends me-2"></i>
                                         View Users
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="User" asp-action="Create">
-                                        <i class="bi bi-person-plus me-2"></i>
+                                        <i class="fas fa-user-plus me-2"></i>
                                         Add User
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="User" asp-action="AssignDevice">
-                                        <i class="bi bi-arrow-left-right me-2"></i>
+                                        <i class="fas fa-exchange-alt me-2"></i>
                                         Assign Device
                                     </a>
                                 </li>
@@ -130,26 +130,26 @@
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-gear me-1"></i>
+                                <i class="fas fa-cog me-1"></i>
                                 Settings
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow-custom">
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Privacy">
-                                        <i class="bi bi-shield-lock me-2"></i>
+                                        <i class="fas fa-shield-alt me-2"></i>
                                         Privacy
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center" href="#">
-                                        <i class="bi bi-palette me-2"></i>
+                                        <i class="fas fa-palette me-2"></i>
                                         Theme Settings
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center text-muted" href="#">
-                                        <i class="bi bi-box-arrow-right me-2"></i>
+                                        <i class="fas fa-sign-out-alt me-2"></i>
                                         Sign Out
                                     </a>
                                 </li>
@@ -168,7 +168,7 @@
                 <ol class="breadcrumb bg-white p-3 rounded-custom shadow-sm">
                     <li class="breadcrumb-item">
                         <a href="@Url.Action("Index", "Home")" class="text-decoration-none">
-                            <i class="bi bi-house-door me-1"></i>Home
+                            <i class="fas fa-home me-1"></i>Home
                         </a>
                     </li>
                     @if (ViewData["Title"] is string title && title != "Dashboard")
@@ -185,7 +185,7 @@
             @if (TempData["SuccessMessage"] != null)
             {
                 <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <i class="fas fa-check-circle me-2"></i>
                     <div>@TempData["SuccessMessage"]</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -194,7 +194,7 @@
             @if (TempData["ErrorMessage"] != null)
             {
                 <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <i class="fas fa-exclamation-triangle me-2"></i>
                     <div>@TempData["ErrorMessage"]</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -203,7 +203,7 @@
             @if (TempData["InfoMessage"] != null)
             {
                 <div class="alert alert-info alert-dismissible fade show d-flex align-items-center" role="alert">
-                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <i class="fas fa-info-circle me-2"></i>
                     <div>@TempData["InfoMessage"]</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -212,7 +212,7 @@
             @if (TempData["WarningMessage"] != null)
             {
                 <div class="alert alert-warning alert-dismissible fade show d-flex align-items-center" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <i class="fas fa-exclamation-triangle me-2"></i>
                     <div>@TempData["WarningMessage"]</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -234,15 +234,15 @@
                 <div class="col-md-6 text-md-end">
                     <div class="d-flex justify-content-md-end justify-content-center gap-3 mt-3 mt-md-0">
                         <a href="@Url.Action("Privacy", "Home")" class="d-flex align-items-center">
-                            <i class="bi bi-shield-lock me-1"></i>
+                            <i class="fas fa-shield-alt me-1"></i>
                             Privacy
                         </a>
                         <a href="#" class="d-flex align-items-center">
-                            <i class="bi bi-question-circle me-1"></i>
+                            <i class="fas fa-question-circle me-1"></i>
                             Help
                         </a>
                         <a href="#" class="d-flex align-items-center">
-                            <i class="bi bi-envelope me-1"></i>
+                            <i class="fas fa-envelope me-1"></i>
                             Contact
                         </a>
                     </div>
