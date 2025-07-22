@@ -1,3 +1,5 @@
+# Ignore configuration files containing secrets
+appsettings.json
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -482,5 +484,3 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db
-*.appsettings.json
-*.appsettings.Development.json
