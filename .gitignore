@@ -482,3 +482,5 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db
+*.appsettings.json
+*.appsettings.Development.json
